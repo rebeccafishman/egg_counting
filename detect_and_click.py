@@ -56,10 +56,23 @@ for names in range(int(len(listdir(directory)))):
     filename = directory+listdir(directory)[names]
     first_file =  directory+listdir(directory)[0]
     date = first_file.split('/')[3]
+    #date = 'test'
+    t0 = first_file.split('/')[4].split('png')[0].split('_')[2].split('.')[0]    
     t = filename.split('/')[4].split('png')[0].split('_')[2].split('.')[0]
     #loc = filename.split('/')[4].split('png')[0].split('_')[0]+'_'+filename.split('/')[4].split('png')[0].split('_')[1]
     loc = filename.split('/')[4].split('png')[0].split('_')[1]
     
+    hr0 = t0.split('-')[0]
+    minute0 = t0.split('-')[1]
+    sec0 = t0.split('-')[2]    
+    totT0 = 3600*float(hr0)+60*float(minute0)+float(sec0)    
+    
+    hr = t.split('-')[0]
+    minute = t.split('-')[1]
+    sec = t.split('-')[2]
+    totT = 3600*float(hr)+60*float(minute)+float(sec)    
+    
+    elapsed = totT - totT0
     im = Image.open(filename)
     image = np.asarray(im)
     #io.imshow(image)
@@ -85,13 +98,13 @@ for names in range(int(len(listdir(directory)))):
     
     for i in range(len(properties)):
         area = properties[i].filled_area #(140)
-        if area < 2000 and area>100 and properties[i].eccentricity<0.95:# and properties[i].minor_axis_length>10 and properties[i].major_axis_length<65:
+        if area < 2000 and area>65 and properties[i].eccentricity<0.95 and properties[i].euler_number>-1:# and properties[i].minor_axis_length>10 and properties[i].major_axis_length<65:
             coord = properties[i].centroid
             eggs.append(coord)        
-            if area>360:
+            if area>400:
                 coord2 = (properties[i].centroid[0]+4,properties[i].centroid[1]+4)
                 eggs.append(coord2)
-                if area>600:
+                if area>700:
                     coord3 = (properties[i].centroid[0]+10,properties[i].centroid[1]-10)
                     eggs.append(coord3)
                     if area>900:
@@ -133,13 +146,13 @@ for names in range(int(len(listdir(directory)))):
     #small = cv2.pyrDown( image, image, ( image.shape[0]/2, image.shape[1]/2 ))
     # keep looping until the 'q' key is pressed
     datafile = '../Data/egg_count/%s.txt'%date
-    text= '#location    time    egg_count#\n'
+    text= '#location    time     elapsed(sec)    egg_count#\n'
 
     while True:
     	# display the image and wait for a keypress
     	#smaller = cv2.resize(image, (0,0), fx=0.5, fy=0.5)
     	cv2.imshow("image",small)#, small)
-    	key = cv2.waitKey(1) & 0xFF
+    	key = cv2.waitKey(0) #& 0xFF #cv2.waitKey(1) & 0xFF
      
      
     	# if the 'c' key is pressed, break from the loop
@@ -150,7 +163,7 @@ for names in range(int(len(listdir(directory)))):
                      f.write(text)
                      f.close()    
              g=open(datafile,"a")
-             text2='%s        %s     %s\n' %(loc, t, counter)
+             text2='%s        %s        %s         %s\n' %(loc, t, totT, counter)
              g.write(text2)
              g.close()
              if counter != 0:
