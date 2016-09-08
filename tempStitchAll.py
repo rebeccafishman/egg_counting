@@ -39,12 +39,12 @@ delty1 = 66
 deltx1 = 260  
 '''
 #for z = -2.85 @ zoom3000:
-deltx1 = 270#266
+deltx1 = 250#270#266
 delty2 = 136
-deltx2 = 65#44
+deltx2 = 110#65#44
 delty1= 65
 
-directory = '../Data/individualPics/07-06-2016/'#'../Data/19-May-2016/'
+directory = '../Data/individualPics/09-06-2016/'#'../Data/19-May-2016/'
 for i in range(int(len(os.listdir(directory))/4)):
     #finalSize = np.zeros((2*ymax+delty1-delty2,2*xmax+deltx2-deltx1))
     pos1 = directory+os.listdir(directory)[4*i]
@@ -56,7 +56,7 @@ for i in range(int(len(os.listdir(directory))/4)):
     time = datetime[4]
     print pos1
     #filename = 'loc_1_17-29-02.png'
-    a = 39
+    a = 80
     finalSize = np.zeros((2*ymax+delty1-delty2+a,2*xmax+deltx2-deltx1))
     #net_displ = [0,44.147,46.957,55.606,63.702,69.029,76.662,79.756,85.0,84.971,95.016,92.962,90.973,86.023,]
     im1 = Image.open(pos1).convert('L')

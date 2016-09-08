@@ -8,7 +8,7 @@ from PIL import Image
 import os
 #script loc C:\Python27\Lib\site-packages\xy
 
-filename = '../Data/egg_count/09-01-16-clip.txt'
+filename = 'Data/egg_count/09-01-16-clip.txt'
 loc,time_str = loadtxt(filename,skiprows = 1, unpack = True, usecols = [0,1],dtype = str)
 tot_time,count = loadtxt(filename,skiprows = 1, unpack = True, usecols = [2,3],dtype = int)
 #print count
@@ -63,27 +63,9 @@ ax4.plot(x, 2 * y ** 2 - 1, color='r')
 '''
 #iterate thru each matrix element to create cumulative matrix
 
-        
-        
-x = []
-xtot = []
-x2 = []
-x4 = []
-x2tot = []
-x4tot = []
-x14 = []
-x16 = []
-x25 = []
-x31 = []
-x32 = []
-x9 = []
-x14tot = []
-x16tot = []
-x25tot = []
-x32tot = []
-x9tot = []
-x31tot = []
-# ^^ unnecessary
+#Need to use a dictionary!
+
+
 
 for i in range(noPlates):
     if int(plates[i]) in fourW:
@@ -95,9 +77,16 @@ for i in range(noPlates):
         #print hr
         #print (cycle,i)
         matrix[cycle,i] = hr
-        #print matrix
 
-'''
+print matrix
+
+
+dict = {}
+for i in range(len(plates)):
+    dict[plates[i]] = i
+    
+x12 = matrix[:,dict['12']]    
+
 cumu = np.zeros([noCycles,32])
 for cycle in range(noCycles):
     for plate in range(noPlates):
@@ -106,7 +95,8 @@ for cycle in range(noCycles):
         else:
             cumu[cycle,plate]=count[cycle,plate] + cumu[cycle-1,plate]
             
-'''
+
+
 for i in range(noCycles):
     cycleMean = np.mean(matrix[i])
     x.append(cycleMean)
